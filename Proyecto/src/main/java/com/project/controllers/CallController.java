@@ -20,6 +20,7 @@ public class CallController {
 
     private final JwtUtil jwtUtil;
 
+    private final String MESSAGE = "No estas autorizado para realizar esta accion.";
 
     public CallController(CallsService callsService, JwtUtil jwtUtil) {
         this.callsService = callsService;
@@ -30,18 +31,9 @@ public class CallController {
     public List<Calls> getCalls(@RequestHeader(value = "Authorization") String token, @PathVariable("id") Integer id) {
         String userId = jwtUtil.getKey(token);
         if (userId == null) {
-            throw new AuthException("No estas autorizado para realizar esta accion.");
+            throw new AuthException(MESSAGE);
         }
-        return callsService.userCalls(id, (byte) 0);
-    }
-
-    @GetMapping(value = "getCalls/{id}")
-    public List<Calls> getUserCalls(@RequestHeader(value = "Authorization") String token, @PathVariable("id") Integer id) {
-        String userId = jwtUtil.getKey(token);
-        if (userId == null) {
-            throw new AuthException("No estas autorizado para realizar esta accion.");
-        }
-        return callsService.userCalls(id, (byte) 1);
+        return callsService.findByDateAndUserId(id);
     }
 
 
@@ -53,6 +45,12 @@ public class CallController {
         }
         callsService.save(call);
     }
+
+    @GetMapping(value = "getCalls/{id}")
+    public List<Calls> prueba(@PathVariable("id") Integer id) {
+        return callsService.findAllByUserIdAndDateAndTimes(id);
+    }
+
 
     @GetMapping(value = "callsByDate/{id}/{date}")
     public List<Calls> findAllByIdAndDate(@RequestHeader(value = "Authorization") String token, @PathVariable("id") Integer id, @PathVariable String date) {

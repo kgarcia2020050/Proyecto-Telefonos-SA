@@ -8,7 +8,12 @@ import Swal from "sweetalert2";
 const RegisterComponent = () => {
   const navigate = useNavigate();
   useEffect(() => {
-    localStorage.clear();
+    if (
+      localStorage.getItem("token") != null ||
+      localStorage.getItem("token") != undefined
+    ) {
+      navigate("/history");
+    }
   }, []);
 
   const { formValues, handleInputChange } = useForm({

@@ -14,7 +14,7 @@ function App() {
           <Route path="/" element={<LoginComponent />} />
           <Route path="/login" element={<LoginComponent />} />
           <Route path="/register" element={<RegisterComponent />} />
-          <Route path="/home" element={<CallsComponent />} />
+          <Route path="/home"  element={<CallsComponent />} />
           <Route path="/myCalls" element={<AddCallsComponent />} />
           <Route path="/history" element={<CallsHistory />} />
         </Routes>

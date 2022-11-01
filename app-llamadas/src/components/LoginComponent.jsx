@@ -6,7 +6,12 @@ import Swal from "sweetalert2";
 const LoginComponent = () => {
   const navigate = useNavigate();
   useEffect(() => {
-    localStorage.clear();
+    if (
+      localStorage.getItem("token") != null ||
+      localStorage.getItem("token") != undefined
+    ) {
+      navigate("/history");
+    }
   }, []);
 
   const { formValues, handleInputChange } = useForm({
@@ -19,7 +24,6 @@ const LoginComponent = () => {
     axios
       .post("http://localhost:8080/service/login", formValues)
       .then(({ data }) => {
-        console.log(data);
         localStorage.setItem("userId", data[0]);
         localStorage.setItem("token", data[1]);
         Swal.fire({

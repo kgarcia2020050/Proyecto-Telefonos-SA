@@ -39,24 +39,22 @@ const Navbar = () => {
                   Historial de llamadas
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/myCalls">
+                  Llamadas de hoy
+                </Link>
+              </li>
               {value == 2 ? (
                 <Link
                   onClick={() => {
-                    localStorage.setItem("state", 0);
-                    setValue(localStorage.getItem("state"));
+                    setValue(0);
+                    localStorage.clear();
                   }}
                   className="nav-link"
                   to="/login"
                 >
                   Cerrar sesion
                 </Link>
-              ) : null}
-              {value == 1 ? (
-                <li className="nav-item">
-                  <Link className="nav-link" to="/myCalls">
-                    Llamadas de hoy
-                  </Link>
-                </li>
               ) : null}
             </ul>
           </div>

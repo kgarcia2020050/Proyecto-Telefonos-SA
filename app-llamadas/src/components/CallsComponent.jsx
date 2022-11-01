@@ -24,7 +24,10 @@ const CallsComponent = () => {
     type: "",
     solution: "",
     startTime: "",
-    startDay: "",
+    startDay:
+      localStorage.getItem("startDay") != null
+        ? localStorage.getItem("startDay")
+        : null,
     userId: localStorage.getItem("userId"),
   });
 
@@ -37,13 +40,12 @@ const CallsComponent = () => {
         <button
           onClick={() => {
             localStorage.setItem("state", 1);
+            localStorage.setItem("startDay", new Date().toLocaleTimeString());
             setValue(localStorage.getItem("state"));
             setFormValues({
               ...formValues,
-              startDay: new Date().toLocaleTimeString(),
+              startDay: localStorage.getItem("startDay"),
             });
-
-            console.log(formValues.startDay);
           }}
           className="btn btn-success"
         >
@@ -73,7 +75,7 @@ const CallsComponent = () => {
               localStorage.setItem("state", 2);
               setValue(localStorage.getItem("state"));
               AxiosPut("calls/udpateCalls");
-              navigate("/history");
+              navigate("/myCalls");
             }}
             className="btn btn-danger"
           >

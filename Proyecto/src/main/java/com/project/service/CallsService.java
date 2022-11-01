@@ -28,11 +28,18 @@ public class CallsService {
         callRepository.save(newCall);
     }
 
-    public List<Calls> userCalls(Integer id,Byte done) {
+    public List<Calls> userCalls(Integer id, Byte done) {
         return callRepository.findAllByUserIdAndDone(id, done);
     }
 
     public List<Calls> findAllByUserIdAndDate(Integer id, String date) {
+        return callRepository.findAllByUserIdAndDate(id, date);
+    }
+
+
+    public List<Calls> findByDateAndUserId(Integer id) {
+        DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy");
+        String date = dateFormat.format(new Date());
         return callRepository.findAllByUserIdAndDate(id, date);
     }
 
@@ -53,11 +60,29 @@ public class CallsService {
             }
 
             callRepository.saveAll(calls);
+            updateFinishDays(id);
 
         }
     }
 
 
+    public List<Calls> findAllByUserIdAndDateAndTimes(Integer id) {
+        return callRepository.findCallsByUserIdAAndDone(id, (byte) 1);
+    }
 
+    public void updateFinishDays(Integer id) {
+        DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy");
+        String date = dateFormat.format(new Date());
+        List<Calls> myCalls = callRepository.findAllByUserIdAndDate(id, date);
+        if (myCalls.size() > 0) {
+            List<Calls> finishDay = callRepository.findLastFinishDay(id, date);
+            List<Calls> startDay = callRepository.findFirstStartDay(id, date);
+            for (int i = 0; i < myCalls.size(); i++) {
+                myCalls.get(i).setFinishDay(finishDay.get(0).getFinishDay());
+                myCalls.get(i).setStartDay(startDay.get(0).getStartDay());
+            }
+            callRepository.saveAll(myCalls);
+        }
+    }
 
 }

@@ -26,7 +26,7 @@ public class LoginController {
     public String[] login(@RequestBody UserDTO users) {
         Users user = loginService.login(users);
         if (user != null) {
-            return new String[]{String.valueOf(user.getId()), jwtUtil.create(String.valueOf(user.getId()), user.getUsername())};
+            return new String[]{String.valueOf(user.getId()), jwtUtil.create(String.valueOf(user.getId()), user.getName())};
         } else {
             throw new AuthException("No estas autorizado para realizar esta accion.");
         }

@@ -1,13 +1,16 @@
 package com.project.bo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Calls {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -46,4 +49,15 @@ public class Calls {
     @Basic
     @Column(name = "DATE", nullable = true, length = 30)
     private String date;
+
+
+    public Calls(String date, String startDay, String finishDay) {
+        this.startDay = startDay;
+        this.finishDay = finishDay;
+        this.date = date;
+    }
+
+    public Calls(String finishDay) {
+        this.finishDay = finishDay;
+    }
 }
